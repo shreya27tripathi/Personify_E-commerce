@@ -10,10 +10,7 @@
   "keywords": [],
   "author": "Shreya",
   "license": "ISC",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/shreya27tripathi/Personify_E-commerce.git"
-  },
+  
   "bugs": {
     "url": "https://github.com/shreya27tripathi/Personify_E-commerce/issues"
   },
