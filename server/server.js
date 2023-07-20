@@ -13,10 +13,11 @@ async function sendESRequest() {
 
     const body = await client.search({
       index: 'fashion',
+      size:300,
         body: {
             
             query: {
-                "match_all": {}
+              "match_all":{},
             },
           },
     });//search query ends here
@@ -26,7 +27,55 @@ async function sendESRequest() {
 
   sendESRequest();
 });
+app.get('/urbanic', (req, res) => {
 
+  async function sendES2Request() {
+  
+      const body = await client.search({
+        index: 'fashion',
+        size:300,
+          body: {
+              
+              query: {
+                
+                  match: {
+                    brand: 'URBANIC'
+                  }
+              
+            },
+      }});//search query ends here
+      
+      res.json(body.hits.hits);
+    }
+  
+    sendES2Request();
+  });
+
+app.get('/brands', (req, res) => {
+
+  async function brandRequest() {
+  
+      const body = await client.search({
+        index: 'fashion',
+        size:300,
+          body: {
+            aggs: {
+              distinct_brand: {
+                terms: {
+                  field: "brand",
+                  size: 1000
+                }
+              }
+            }
+      }
+    });//search query ends here
+      
+      res.json(body.aggregations.distinct_brand.buckets);
+    }
+  
+    brandRequest();
+  });
+  
 const PORT = process.env.PORT || 3001;
 
 app.listen(PORT, () => console.log(`Server listening at http://localhost:${PORT}`));
