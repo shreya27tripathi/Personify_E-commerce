@@ -75,6 +75,33 @@ app.get('/brands', (req, res) => {
   
     brandRequest();
   });
+
+  app.get('/catalog', (req, res) => {
+
+    async function CatalogRequest() {
+        const passedSearch = req.query.search;  
+        const body = await client.search({
+          index: 'fashion',
+          size:300,
+            body: {
+              query: {
+                multi_match: {
+                  query: passedSearch,
+                  fields: [
+                    "brand",
+                    "description",
+                    "colour"
+                  ]
+                }
+              }
+        }
+      });//search query ends here
+        
+        res.json(body.hits.hits);
+      }
+    
+      CatalogRequest();
+    });
   
 const PORT = process.env.PORT || 3001;
 

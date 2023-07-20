@@ -1,38 +1,211 @@
-.App {
-  text-align: center;
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300&display=swap');
+
+* {
+  font-family: 'Open Sans Condensed', sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body {
+  /* background-image: url(https://i.imgur.com/lx59qEN.jpg); */
+  /* background-image: url('/home/shreya/earthquake_app/bg.png'); */
+  background-position-x: center;
+  background-position-y: center;
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-origin: initial;
+  background-clip: initial;
+  margin: 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+div {
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.nav {
+  width: 100%;
+  float: left;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.nav-bar {
+  margin: 0;
+  padding: 8px;
+  height: 152px;
+  display:flex;
+  justify-content: center;
+  background-color: rgb(138, 105, 192);
+}
+
+.nav-bar li {
+  display: inline;
+  margin-top: 0px;
+  font-size: 80px;
+}
+
+.directions {
+  margin-left: 34%;
+    margin-top: 165px;
+    font-size: 32px;
+    display: flex;
+    /* margin: auto; */
+    border: 2px;
+    border-radius: 10px;
+    padding: 20px;
+    justify-content: center;
+    font-weight: bolder;
+    color: black;
+    background-color: lightgrey;
+    height: 54px;
+    width: 589px;
+}
+  /* margin-left: 30%;
+  margin-top: 165px;
+  font-size: 47px;
+  display:flex;
+  /* margin:auto; 
+  border:2px;
+  border-radius: 10px;
+  padding:20px;
+  justify-content: center;
+  font-weight: bolder;
+  color:black;
+  background-color: lightgrey;
+  height:70px;
+  width:800px; */
+
+
+
+.main {
+  display: flex;
+  flex-direction: column;
+  font-family: inherit;
+  padding-top: 20px;
+}
+.type-selector {
+  margin-left: 1%;
+  margin-top:1.5%;
+  /* display:flex; */
+  /* justify-content: center; */
+}
+.type-selector ul{
+  display:flex;
+  justify-content:center;
+  padding: 0px;
+  text-decoration: none;
+  list-style:none ;
+  margin:0px;
+}
+.type-selector li {
+
+  text-decoration: none;
+  
+  /* font-style: inherit; */
+  padding:15px;
+  list-style:none ;
+}
+#Search
+{
+  background-color: #04AA6D;
+  border: none;
+  color: white;
+  padding: 20px 100px;
+  text-decoration: none;
+  /* margin: 4px 2px; */
+  cursor: pointer;
+  /* margin:auto;  */
+  margin-left: 43%; 
+  margin-top:20px;
+  border-radius: 4px;
+  text-align: center;
+  font-size: 20px;
+  display:flex;
+  justify-content: center;
+  height:60px;
+
+}
+
+input[type=text] {
+    width: 100%;
+    padding: 29px 20px;
+    margin: 5px 0;
+    box-sizing: border-box;
+    font-size: 26px;
+    border-radius: 4px;
+}
+select{
+  /* width: 100%; */
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  margin: 8px 0;
+  background-color: #f1f1f1;
+  font-size: 21px;
+}
+.type-selector li:focus,
+.type-selector li:hover {
+  outline: none;
+  border: 1px solid #bbbbbb;
+}
+
+.form {
+  width: 200px;
+  height: 16px;
+}
+
+.form::placeholder {
+  color: black;
+  opacity: 1;
+}
+
+.type-selector button:hover {
+  color: #be3400;
+  border: 0.1rem #404040 solid; 
+}
+
+.type-selector button {
+  height: 23px;
+}
+
+.search-results {
+  display: block;
+  width: 100%;
+  margin-left:12%;
+  font-family: inherit;
+}
+
+/* .results-card {
+  background-color: rgba(82, 255, 255, 0.7);
+  flex: 0 1 29rem;
+  height: 23rem;
+  border-radius: 4px;
+  font-weight: bold;
+  border: 1px;
+  float: left;
+  margin: 1px;
+  margin-top: 5px;
+  margin-right: 10px;
+  padding: 10px epx;
+  justify-content: space-between;
+  max-width: 400px;
+}*/
+
+.results-text {
+  margin-left: 2rem;
+  margin-right: 2rem;
+  color: #404040;
+  /* font-size:12px; */
+} 
+
+#heading
+{
+
+  display:flex;
+  text-align:center;
+  justify-content: center;
+  padding:30px;
+
+}
+.sticky {
+  position: fixed;
+  top: -30px;
+  width: 100%;
 }
