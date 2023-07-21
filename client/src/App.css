@@ -172,8 +172,8 @@ select{
   font-family: inherit;
 }
 
-/* .results-card {
-  background-color: rgba(82, 255, 255, 0.7);
+.results-card {
+  background-color: rgba(255, 255, 255, 0.7);
   flex: 0 1 29rem;
   height: 23rem;
   border-radius: 4px;
@@ -186,12 +186,13 @@ select{
   padding: 10px epx;
   justify-content: space-between;
   max-width: 400px;
-}*/
+}
 
 .results-text {
   margin-left: 2rem;
   margin-right: 2rem;
   color: #404040;
+  text-align:center;
   /* font-size:12px; */
 } 
 

@@ -88,9 +88,10 @@ app.get('/brands', (req, res) => {
                 multi_match: {
                   query: passedSearch,
                   fields: [
-                    "brand",
+                    "brand^5",
+                    "colour ^5",
                     "description",
-                    "colour"
+                    "name"
                   ]
                 }
               }

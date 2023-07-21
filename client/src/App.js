@@ -191,22 +191,22 @@ function App() {
             
           </ul> */}
           <div><button id="Search" onClick={sendCatalogRequest}>Search</button></div>
-          <div className="Documents">
+          <div className="ga">
             {documents && (
-                <div className='search-results'>
+                <div className='g'>
                   {documents.length > 0 ? (
                     <p> Number of hits: {documents.length}</p>
                   ) : (
                     <p> No results found. Try broadening your search criteria.</p>
                   )}
                   {documents.map((document) => (
-                    <div className='results-card'>
+                    <div className='d'>
                       <div className='results-text'>
                         <img src={document._source.img} alt="a img"></img>
                         <p><b>Brand:</b> {document._source.brand}</p>
                         <p>Colour: {document._source.colour}</p>
                         <p>Name: {document._source.name}</p>
-                        <p>description: {document._source.description}</p>
+                        {/* <p>description: {document._source.description}</p> */}
                         <p>Price: {document._source.price}</p>
                         <p>Rating: {document._source.ratingCount}</p>
                         
