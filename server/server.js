@@ -105,18 +105,12 @@ app.get('/brands', (req, res) => {
 
     async function CatalogRequest() {
         const passedSearch = req.query.search; 
-        const passedSort = req.query.sort; 
+        // const passedSort = req.query.sort; 
+        
         const body = await client.search({
           index: 'fashion',
           
             body: {
-              // sort: [
-              //   {
-              //     price: {
-              //       order: passedSort,
-              //     },
-              //   },
-              // ],
               size:300,
               query: {
                 multi_match: {
@@ -143,6 +137,9 @@ app.get('/brands', (req, res) => {
     async function FilterRequest() {
       const passedSearch = req.query.search; 
       const passedSort = req.query.sort; 
+      const passedPrice=req.query.price;
+      const passedColor=req.query.color;
+      const passedBrand=req.query.brand;
       const body = await client.search({
         index: 'fashion',
         
@@ -156,16 +153,40 @@ app.get('/brands', (req, res) => {
             ],
             size:300,
             query: {
-              multi_match: {
-                query: passedSearch,
-                fields: [
-                  "brand^2",
-                  "colour ^2",
-                  "description",
-                  "name^2",
-                 
-                ]
-              }
+
+              bool: {
+                filter: [
+          
+                  {
+                    range: {
+                      price: {
+                        lte: passedPrice,
+                      },
+                    },
+                  },
+                  {
+                    multi_match: {
+                      query: passedSearch,
+                      fields: [
+                        "brand^2",
+                        "colour ^2",
+                        "description",
+                        "name^2",
+                       
+                      ]
+                    }
+                  },
+                  {
+                    match: { brand: passedBrand },
+                  },
+                  {
+                    match:{colour:passedColor}
+                  },
+
+                ],
+              },
+
+             
             }
       }
     });//search query ends here

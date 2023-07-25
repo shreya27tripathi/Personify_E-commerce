@@ -10,27 +10,25 @@ body: {
     query: {
       bool: {
         filter: [
-          {
-            term: { type: passedType },
-          },
+ 
           {
             range: {
-              mag: {
-                gte: passedMag,
+              price: {
+                lte: passedPrice,
               },
             },
           },
           {
-            match: { place: passedLocation },
-          },
-
-          {
-            range: {
-              '@timestamp': {
-                gte: `now-${passedDateRange}d/d`,
-                lt: 'now/d',
-              },
-            },
+            multi_match: {
+              query: passedSearch,
+              fields: [
+                "brand^2",
+                "colour ^2",
+                "description",
+                "name^2",
+               
+              ]
+            }
           },
         ],
       },
@@ -38,27 +36,47 @@ body: {
   },
 });//search query ends here
 
+body: {
+  sort: [
+    {
+      price: {
+        order: passedSort,
+      },
+    },
+  ],
+  size:300,
+  query: {
+    bool: {
+      filter: [
 
+        {
+          range: {
+            price: {
+              lte: passedPrice,
+            },
+          },
+        },
+        {
+          multi_match: {
+            query: passedSearch,
+            fields: [
+              "brand^2",
+              "colour ^2",
+              "description",
+              "name^2",
+             
+            ]
+          }
+        },
+        {
+          match: { brand: passedBrand },
+        },
+        {
+          match:{colour:passedColor}
+        },
+      ],
+    },
+  }
+}
+});
 
-{Color && 
-  ( 
-
-    {Color.length > 0 ? (console.log(Color.length)) : ( <p> No results found. Try broadening your search criteria.</p>)}
-    {Color.map((item) => (             
-              <li id="color-list">
-                <input type="checkbox" id={item.key}  name={item.key} value={item.key}/>
-                <label for={item.key}> {item.key}</label>
-              </li>
-    ))}
-
-    )
-    }
-  
-
-    {Brands.length > 0 ? (console.log(Brands.length)) : (<p> No results found. Try broadening your search criteria.</p>)}
-    {Brands.map((brand) => (             
-      <li id="color-list">
-        <input type="checkbox" id={brand.key} name={brand.key} value={brand.key}/>
-        <label for={brand.key}> {brand.key}</label>
-      </li>
-    ))}
