@@ -6,89 +6,20 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Result from './Result';
 
 function App() {
-    const [chosenType, setChosenType] = useState(null);
-    const [chosenMag, setChosenMag] = useState(null);
+ 
     const [chosenCatalog, setChosenCatalog] = useState(null);
-    const [chosenDateRange, setChosenDateRange] = useState(null);
-    const [chosenSortOption, setchosenSortOption] = useState(null);
-    // const [catalog, setCatalog] = useState(null);
     const [documents, setDocuments] = useState(null);
-    const [lists, setLists] = useState(null);
-    const sendSearchRequest = () => {
-      const results = {
-        method: 'GET',
-        url: 'http://localhost:3001/results',
-        // params: {
-        //   type: chosenType,
-        //   mag: chosenMag,
-        //   location: chosenLocation,
-        //   dateRange: chosenDateRange,
-        //   sortOption: chosenSortOption,
-        // },
-      };
-      
-      axios
-        .request(results)
-        .then((response) => {
-          console.log(response.data);
-          setDocuments(response.data);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    };
-    const sendSearchRequest2 = () => {
-      const results = {
-        method: 'GET',
-        url: 'http://localhost:3001/urbanic',
-        // params: {
-        //   type: chosenType,
-        //   mag: chosenMag,
-        //   location: chosenLocation,
-        //   dateRange: chosenDateRange,
-        //   sortOption: chosenSortOption,
-        // },
-      };
-      
-      axios
-        .request(results)
-        .then((response) => {
-          console.log(response.data);
-          setDocuments(response.data);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    };
-    const sendBrandRequest=()=>{
-      const results = {
-        method: 'GET',
-        url: 'http://localhost:3001/brands',
-        // params: {
-        //   type: chosenType,
-        //   mag: chosenMag,
-        //   location: chosenLocation,
-        //   dateRange: chosenDateRange,
-        //   sortOption: chosenSortOption,
-        // },
-      };
-      
-      axios
-        .request(results)
-        .then((response) => {
-          console.log(response.data);
-          setLists(response.data);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    };
+    const [chosenSortOption, setchosenSortOption] = useState(null);
+    const [Color, setColorList] = useState(null);
+    const [Brands, setBrandList] = useState(null);
+
     const sendCatalogRequest= () => {
       const results = {
         method: 'GET',
         url: 'http://localhost:3001/catalog',
         params: {
           search: chosenCatalog,
+          // sort: chosenSortOption
         },
       };
       
@@ -102,19 +33,73 @@ function App() {
           console.error(error);
         });
     };
-  // sendBrandRequest();
+
+    const sendFilterRequest= () => {
+      const results = {
+        method: 'GET',
+        url: 'http://localhost:3001/filter',
+        params: {
+          search: chosenCatalog,
+          sort: chosenSortOption
+        },
+      };
+      
+      axios
+        .request(results)
+        .then((response) => {
+          console.log(response.data);
+          setDocuments(response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    };
+
+    const sendColorRequest= () => {
+      const results = {
+        method: 'GET',
+        url: 'http://localhost:3001/color',
+      };     
+      axios
+        .request(results)
+        .then((response) => {
+          console.log(response.data);
+          setColorList(response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    };
+    setTimeout(sendColorRequest(),0);
+    
+    const sendBrandRequest= () => {
+      const results = {
+        method: 'GET',
+        url: 'http://localhost:3001/brands',
+      };     
+      axios
+        .request(results)
+        .then((response) => {
+          console.log(response.data);
+          setBrandList(response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    };
+    setTimeout(sendBrandRequest(),0);
+
   return (
     <div className="App">
-      <nav>
-        <ul className='nav-bar sticky' >
-          <li id="heading">Personify</li>
-        </ul>
-      </nav>
-      <p className='directions'>
-        Enter the dress of your dreams
-      </p>
-      <ul>
-        <li>
+     
+  
+  <nav className='nav-bar sticky'>
+        
+          <h1 id="heading">Personify</h1>
+        
+  </nav>
+  <ul id="SearchBar">
+        <li >
           <form>
             <label>
               <input
@@ -127,56 +112,16 @@ function App() {
             </label>
           </form>
         </li>
-      </ul>
-      
-      <div className='main'>
-        <div className='type-selector'>
-          {/* <ul>
-            <li>
-              <select
-                name='types'
-                id='types'
-                value={chosenType}
-                onChange={(e) => setChosenType(e.target.value)}
-              >
-                <option value={null}>Select a Type</option>
-                <option value='earthquake'>Earthquake</option>
-                <option value='quarry blast'>Quarry Blast</option>
-                <option value='ice quake'>Ice Quake</option>
-                <option value='explosion'>Explosion</option>
-              </select>
-            </li>
-            <li>
-              <select
-                name='mag'
-                id='mag'
-                value={chosenMag}
-                onChange={(e) => setChosenMag(e.target.value)}
-              >
-                <option value={null}>Select magnitude level</option>
-                <option value='2.5'>2.5+</option>
-                <option value='5.5'>5.5+</option>
-                <option value='6.1'>6.1+</option>
-                <option value='7'>7+</option>
-                <option value='8'>8+</option>
-              </select>
-            </li>
-            
-            <li>
-              <select
-                name='dateRange'
-                id='dateRange'
-                value={chosenDateRange}
-                onChange={(e) => setChosenDateRange(e.target.value)}
-              >
-                <option value={null}>Select date range</option>
-                <option value='7'>Past 7 Days</option>
-                <option value='14'>Past 14 Days</option>
-                <option value='21'>Past 21 Days</option>
-                <option value='30'>Past 30 Days</option>
-              </select>
-            </li>
-            <li>
+        <div><button id="Search" onClick={sendCatalogRequest}>Search</button></div>
+  </ul>
+
+  
+      <div className="grid-container">
+        <div className="filter">
+          <button id="Search2" onClick={sendFilterRequest}>Apply</button>
+          <div className='Sort'>
+          <ul>
+          <li>
               <select
                 name='sortOption'
                 id='sortOption'
@@ -184,64 +129,112 @@ function App() {
                 onChange={(e) => setchosenSortOption(e.target.value)}
               >
                 <option value={null}>Sort by</option>
-                <option value='desc'>Largest Magnitude First</option>
-                <option value='asc'>Smallest Magnitude First</option>
+                <option value='desc'>Price: High to Low</option>
+                <option value='asc'>Price: Low to High</option>
               </select>
             </li>
-            
-          </ul> */}
-          <div><button id="Search" onClick={sendCatalogRequest}>Search</button></div>
-          <div className="ga">
-            {documents && (
-                <div className='g'>
-                  {documents.length > 0 ? (
-                    <p> Number of hits: {documents.length}</p>
-                  ) : (
-                    <p> No results found. Try broadening your search criteria.</p>
-                  )}
-                  {documents.map((document) => (
-                    <div className='d'>
-                      <div className='results-text'>
-                        <img src={document._source.img} alt="a img"></img>
-                        <p><b>Brand:</b> {document._source.brand}</p>
-                        <p>Colour: {document._source.colour}</p>
-                        <p>Name: {document._source.name}</p>
-                        {/* <p>description: {document._source.description}</p> */}
-                        <p>Price: {document._source.price}</p>
-                        <p>Rating: {document._source.ratingCount}</p>
-                        
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )
-              }
+            </ul>
           </div>
-      
-          {/* <div className="Lists">
-          {lists && (
-              <div className='search-results'>
-                {lists.length > 0 ? (
-                  <p> Number of hits: {lists.length}</p>
-                ) : (
-                  <p> No results found. Try broadening your search criteria.</p>
-                )}
-                {lists.map((item) => (
-                  <div className='results-card'>
-                    <div className='results-text'>
-                      <p><b>Brand:</b> {item.key}</p>
-                    </div>
+          <h1>Prices</h1>
+          <div className="prices">
+            <li id="price-list">
+            <input type="radio" id="p1" name="prices" value="999"/>
+            <label for="p1">Below Rs 999/-</label>
+            </li>
+            <li id="price-list">
+            <input type="radio" id="p2" name="prices" value="1999"/>
+            <label for="p2">Below Rs 1999/-</label>
+            </li>
+            <li id="price-list">
+            <input type="radio" id="p3" name="prices" value="5999"/>
+            <label for="p3">Below Rs 5999/-</label>
+            </li>
+            <li id="price-list">
+            <input type="radio" id="p4" name="prices" value="7999"/>
+            <label for="p4">Below Rs 7999/-</label>
+            </li>
+            <li id="price-list">
+            <input type="radio" id="p5" name="prices" value="9999"/>
+            <label for="p5">Below Rs 9999/-</label>
+            </li>
+            <li id="price-list">
+            <input type="radio" id="p6" name="prices" value="10999"/>
+            <label for="p6">Above Rs 9999/-</label>
+            </li>
+          </div>
+          <h1>Brands</h1>
+          {Brands && (
+                  <div className='brands'> 
+                    {Brands.length > 0 ? (console.log(Brands.length)) : ( <p> No results found. Try broadening your search criteria.</p>)}
+                    {Brands.map((brand) => (             
+                      
+                      <li id="brand-list">
+                      <input type="checkbox" id={brand.key}  name={brand.key} value={brand.key}/>
+                      <label for={brand.key}> {brand.key}</label>
+                      </li>
+
+                    ))}
                   </div>
-                ))}
-              </div>
-            )
-            }
-          </div> */}
+                )
+              }
+
+
+          <h1>Colors</h1>
+
+          {Color && (
+                  <div className='colors'> 
+                    {Color.length > 0 ? (console.log(Color.length)) : ( <p> No results found. Try broadening your search criteria.</p>)}
+                    {Color.map((item) => (             
+                      
+                      <li id="color-list">
+                      <input type="checkbox" id={item.key}  name={item.key} value={item.key}/>
+                      <label for={item.key}> {item.key}</label>
+                      </li>
+
+                    ))}
+                  </div>
+                )
+              }
+
+          
+          
+          
+             
         </div>
-      </div>  
-      {/* <div><button id="Search_Urbanic" onClick={sendSearchRequest2}>Search_Urbanic</button></div>
-      <div><button id="Search_Brands" onClick={sendBrandRequest}>Search_Brands</button></div> */}
-    </div>
+        <div className="result">
+              {documents && (
+                  <div className='row'>
+                    {documents.length > 0 ? (console.log(documents.length)) : ( <p> No results found. Try broadening your search criteria.</p>)}
+                    {documents.map((document) => (             
+                      <div className="flip-card">
+                          <div div className="flip-card-inner">
+                              <div className="flip-card-front">
+                              <img src={document._source.img} alt="Avatar" className="flip-img" />
+                              </div>
+                              <div className="flip-card-back">
+                              <h1>Name: {document._source.name}</h1>
+                              <p><b>Brand:</b> {document._source.brand}</p>
+                              <p>Colour: {document._source.colour}</p>
+                              <p>Price: {document._source.price}</p>
+                              <p>Rating: {document._source.ratingCount}</p>
+                            
+                            </div>
+                          </div>
+                        </div>
+                    ))}
+                  </div>
+                )
+              }
+        </div> 
+      
+        <div className="footer">Footer</div>
+      </div>
+</div>
+      
+      
+      
+  
+    
     
      );
     

@@ -63,7 +63,7 @@ app.get('/brands', (req, res) => {
               distinct_brand: {
                 terms: {
                   field: "brand",
-                  size: 1000
+                  size: 15
                 }
               }
             }
@@ -76,22 +76,57 @@ app.get('/brands', (req, res) => {
     brandRequest();
   });
 
-  app.get('/catalog', (req, res) => {
+  app.get('/color', (req, res) => {
 
-    async function CatalogRequest() {
-        const passedSearch = req.query.search;  
+    async function colorRequest() {
+    
         const body = await client.search({
           index: 'fashion',
           size:300,
             body: {
+              aggs: {
+                distinct_brand: {
+                  terms: {
+                    field: "colour",
+                    size: 12
+                  }
+                }
+              }
+        }
+      });//search query ends here
+        
+        res.json(body.aggregations.distinct_brand.buckets);
+      }
+    
+    colorRequest();
+    });
+
+  app.get('/catalog', (req, res) => {
+
+    async function CatalogRequest() {
+        const passedSearch = req.query.search; 
+        const passedSort = req.query.sort; 
+        const body = await client.search({
+          index: 'fashion',
+          
+            body: {
+              // sort: [
+              //   {
+              //     price: {
+              //       order: passedSort,
+              //     },
+              //   },
+              // ],
+              size:300,
               query: {
                 multi_match: {
                   query: passedSearch,
                   fields: [
-                    "brand^5",
-                    "colour ^5",
+                    "brand^2",
+                    "colour ^2",
                     "description",
-                    "name"
+                    "name^2",
+                   
                   ]
                 }
               }
@@ -103,6 +138,43 @@ app.get('/brands', (req, res) => {
     
       CatalogRequest();
     });
+
+    app.get('/filter', (req, res) => {
+    async function FilterRequest() {
+      const passedSearch = req.query.search; 
+      const passedSort = req.query.sort; 
+      const body = await client.search({
+        index: 'fashion',
+        
+          body: {
+            sort: [
+              {
+                price: {
+                  order: passedSort,
+                },
+              },
+            ],
+            size:300,
+            query: {
+              multi_match: {
+                query: passedSearch,
+                fields: [
+                  "brand^2",
+                  "colour ^2",
+                  "description",
+                  "name^2",
+                 
+                ]
+              }
+            }
+      }
+    });//search query ends here
+      
+      res.json(body.hits.hits);
+    }
+  
+    FilterRequest();
+  });
   
 const PORT = process.env.PORT || 3001;
 
